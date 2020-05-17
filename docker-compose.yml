@@ -1,0 +1,58 @@
+version: '3'
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile
+    image: asana_admin
+    depends_on:
+      - postgres
+    links:
+      - postgres
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    command: /start
+
+  celery:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile
+    image: asana_celery
+    depends_on:
+      - postgres
+      - rabbitmq
+    links:
+      - postgres
+      - rabbitmq
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    command: celery -A core.celery worker -E -l INFO --pidfile= -Ofair
+
+  postgres:
+    image: postgres:12
+    volumes:
+      - postgres_data:/var/lib/postgresql/data:z
+    env_file:
+      - .env
+    ports:
+      - "16432:5432"
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+volumes:
+  postgres_data:

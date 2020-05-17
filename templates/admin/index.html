@@ -1,0 +1,10 @@
+{% extends "admin/index.html" %}
+
+{% block sidebar %}
+    {{block.super}}
+    <form action="{% url 'task_board:synchronization' %}">
+        <input type="submit" value="Синхронизировать с Asana" />
+    </form>
+{% endblock %}
+
+
