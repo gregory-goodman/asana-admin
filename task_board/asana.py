@@ -22,13 +22,6 @@ class Asana:
         return list(self._client().projects.find_all({'workspace': self.get_workspace()}))
 
     def create_task(self, projects_ids, title, executor_id=None, description=None):
-        print(executor_id)
-        print(            {
-                'project': projects_ids,
-                'name': title,
-                'assignee': executor_id,
-                'notes': description
-             })
         return self._client().tasks.create_in_workspace(
             self.get_workspace(),
             {
@@ -51,6 +44,9 @@ class Asana:
 
     def get_tasks_by_project(self, project_id):
         return list(self._client().tasks.find_all({'project': project_id}))
+
+    def add_task_to_project(self, task_id, project_id):
+        return self._client().tasks.add_project(task_id, {'project': project_id})
 
     def get_task_by_id(self, task_id):
         return self._client().tasks.find_by_id(task_id)

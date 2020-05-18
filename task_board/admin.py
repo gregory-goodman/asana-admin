@@ -25,5 +25,6 @@ class TaskAdmin(admin.ModelAdmin):
 @admin.register(Executor)
 class ExecutorAdmin(admin.ModelAdmin):
     inlines = (TaskAdminInline,)
+    list_display = ('name', 'asana_id')
     readonly_fields = ('asana_id',)
 

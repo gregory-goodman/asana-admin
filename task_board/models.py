@@ -2,7 +2,7 @@ from django.db import models, transaction
 
 
 class Executor(models.Model):
-    asana_id = models.CharField(verbose_name='Asana ID', unique=True, max_length=64)
+    asana_id = models.CharField(verbose_name='Asana ID', max_length=64, blank=True)
     name = models.CharField(verbose_name='Имя', max_length=255)
 
     def __str__(self):
@@ -15,7 +15,7 @@ class Executor(models.Model):
 
 
 class Project(models.Model):
-    asana_id = models.CharField(verbose_name='Asana ID', unique=True, max_length=64)
+    asana_id = models.CharField(verbose_name='Asana ID', max_length=64, blank=True)
     title = models.CharField('Название', max_length=255)
 
     def __str__(self):
@@ -34,7 +34,7 @@ class Project(models.Model):
 
 
 class Task(models.Model):
-    asana_id = models.CharField(verbose_name='Asana ID', unique=True, max_length=64)
+    asana_id = models.CharField(verbose_name='Asana ID', max_length=64, blank=True)
     title = models.CharField(verbose_name='Название', max_length=255)
     description = models.TextField(verbose_name='Описание', blank=True, null=True)
     project = models.ForeignKey(
