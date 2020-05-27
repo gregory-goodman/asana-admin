@@ -52,7 +52,6 @@ def update_or_create_task(task_id):
             title=task.title,
             description=task.description,
             executor_id=executor_id,
-            projects_ids=projects_ids,
         )
     Task.objects.filter(id=task_id).update(asana_id=asana_task['gid'])
 
